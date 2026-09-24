@@ -5,6 +5,15 @@ sudo systemctl enable nginx && \
 sudo systemctl is-active nginx
 sudo systemctl status nginx
 
+-----------------------------------------------------------------------
+For error 404 on chrome browser
+GIve permission to your index.html file
+sudo chmod o+x /home/ubuntu
+sudo chmod o+x /home/ubuntu/vivek
+sudo chmod o+r /home/ubuntu/vivek/index.html
+--------------------------------------------------------------------------------------
+
+
 Main config:
  /etc/nginx/nginx.conf
 
