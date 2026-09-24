@@ -1,112 +1,43 @@
-sudo apt update && \
-sudo apt install nginx -y && \
-sudo systemctl start nginx && \
-sudo systemctl enable nginx && \
-sudo systemctl is-active nginx
-sudo systemctl status nginx
+### Project Overview
 
-sudo nginx -t
-sudo systemctl reload nginx
+I built an AWS-based **Nginx Load Balancing project** using three EC2 servers.
 
------------------------------------------------------------------------
-For error 404 on chrome browser
-GIve permission to your index.html file
-sudo chmod o+x /home/ubuntu
-sudo chmod o+x /home/ubuntu/vivek
-sudo chmod o+r /home/ubuntu/vivek/index.html
---------------------------------------------------------------------------------------
+The main server `35.154.2.131` acts as the **Nginx reverse proxy and load balancer**. Two separate EC2 servers work as backend web servers.
 
+### Architecture
 
-Main config:
- /etc/nginx/nginx.conf
+**Client → Nginx Server → Backend Server 1 / Backend Server 2**
 
-Website configs:
- /etc/nginx/sites-available/
+* **Nginx Server:** `35.154.2.131`
+* **Backend Server 1:** `43.205.206.154`
+* **Backend Server 2:** `13.127.10.135`
 
-Enabled configs:
- /etc/nginx/sites-enabled/
+Both backend servers contain their own `index.html` file with different content so I can clearly see which backend handled the request.
 
-Default website:
- /var/www/html/
+### How It Works
 
-Default config:
- /etc/nginx/sites-available/default
+1. The client opens `http://35.154.2.131`.
+2. The request reaches the Nginx server.
+3. Nginx receives the request on port 80.
+4. Nginx uses an `upstream` configuration containing both backend servers.
+5. Nginx forwards the request to one of the backend servers.
+6. Backend Server 1 or Backend Server 2 returns its `index.html`.
+7. Nginx sends that response back to the client.
+8. By refreshing the page, I can observe responses from the different backend servers, demonstrating load balancing.
 
-Logs:
- /var/log/nginx/
+### Technologies Used
 
+* AWS EC2
+* Ubuntu/Linux
+* Nginx
+* HTML
+* HTTP
+* AWS Security Groups
 
-----------------------------------------------------------------------
-SERVER CONFIURATION FILE
----------------------------------------------------------------------------------
-user www-data;
+### Project Objective
 
-worker_processes auto;
+The main objective was to understand how a **reverse proxy and load balancer** sits between clients and multiple backend servers and distributes incoming requests across those servers.
 
-pid /run/nginx.pid;
+### Interview Explanation
 
-events {
-    worker_connections 768;
-}
-
-http {
-    include /etc/nginx/mime.types;
-
-    default_type application/octet-stream;
-
-    # Logs
-    access_log /var/log/nginx/vivek_access.log;
-    error_log  /var/log/nginx/vivek_error.log;
-
-
-    # =========================================
-    # WEBSITE 1 - PORT 80+ proxy SERVER
-    # =========================================
-
-    server {
-        listen 80;
-        listen [::]:80;
-
-        server_name _;
-
-        root /var/www/html;
-        index index.nginx-debian.html;
-
-        location / {
-            try_files $uri $uri/ =404;
-			#or for proxy remove upper try files and paste 
-			 proxy_pass http://127.0.0.1:5000;   #(5000 means node.js and enter proxy server ip )
-
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-    }
-
-
-    # =========================================
-    # WEBSITE 2 - PORT 8080
-    # =========================================
-
-    server {
-        listen 8080;
-        listen [::]:8080;
-
-        server_name _;
-
-        root /home/ubuntu/vivek;
-        index index.html;
-
-        location / {
-            try_files $uri $uri/ =404;
-        }
-    }
-}
-----------------------------------------------------------------------------------------
-
-sudo nginx -t
-sudo systemctl reload nginx
-
-
-
+> "I created a three-server AWS project where one EC2 instance acts as an Nginx reverse proxy and load balancer. The client sends the request to `35.154.2.131`, and Nginx distributes the request between two backend EC2 servers, `43.205.206.154` and `13.127.10.135`. Each backend server has a different index.html response, so I can verify which server handled the request. This project helped me understand Nginx reverse proxying, load balancing, EC2 networking, and Security Group configuration."
