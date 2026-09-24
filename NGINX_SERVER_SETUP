@@ -1,1 +1,24 @@
+sudo apt update
+sudo apt install nginx -y
+sudo systemctl start nginx
+sudo systemctl enable nginx
+sudo systemctl status nginx
 
+
+Main config:
+ /etc/nginx/nginx.conf
+
+Website configs:
+ /etc/nginx/sites-available/
+
+Enabled configs:
+ /etc/nginx/sites-enabled/
+
+Default website:
+ /var/www/html/
+
+Default config:
+ /etc/nginx/sites-available/default
+
+Logs:
+ /var/log/nginx/
