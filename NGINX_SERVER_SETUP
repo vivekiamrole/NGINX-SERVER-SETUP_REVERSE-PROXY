@@ -1,9 +1,8 @@
-sudo apt update
-sudo apt install nginx -y
-sudo systemctl start nginx
-sudo systemctl enable nginx
-sudo systemctl status nginx
-
+sudo apt update && \
+sudo apt install nginx -y && \
+sudo systemctl start nginx && \
+sudo systemctl enable nginx && \
+sudo systemctl is-active nginx
 
 Main config:
  /etc/nginx/nginx.conf
