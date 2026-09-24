@@ -5,6 +5,9 @@ sudo systemctl enable nginx && \
 sudo systemctl is-active nginx
 sudo systemctl status nginx
 
+sudo nginx -t
+sudo systemctl reload nginx
+
 -----------------------------------------------------------------------
 For error 404 on chrome browser
 GIve permission to your index.html file
